@@ -16,6 +16,8 @@
 var express = require("express");
 var JSLINT = require('./fulljslint');
 var fs = require('fs');
+var sys = require('sys');
+var _ = require('underscore');
 
 var app = express.createServer();
 
@@ -23,7 +25,7 @@ app.configure(function () {
     app.use(require('connect-form')({keepExtensions: true}));
     app.use(express.errorHandler(
         { dumpExceptions: true, showStack: true }));
-    app.use(express.bodyDecoder());
+    app.use(express.bodyParser());
 });
 
 var jslint_port = 3003;
@@ -129,12 +131,24 @@ app.post('/example/ok', function (req, res) {
 
 
 function parseCommandLine() {
-    var port_index = process.ARGV.indexOf('--port');
+    var port_index, exclude_index, exclude_opts;
+    port_index = process.ARGV.indexOf('--port');
+    exclude_index = process.ARGV.indexOf('--exclude');
     if (port_index > -1) {
         jslint_port = process.ARGV[port_index + 1];
     }
+    if (exclude_index > -1) {
+        exclude_opts = process.ARGV[exclude_index + 1].split(",");
+        if (exclude_opts.length > 0 && exclude_opts[0] != ''){
+            _.each(exclude_opts, function (opt) {
+                sys.puts("Turning off " + opt);
+                jslint_options[opt] = false;
+            });
+        }
+    }
 }
 
+sys.puts("Starting lintnode server");
 parseCommandLine();
-
 app.listen(jslint_port);
+sys.puts("Lintnode server running on port " + jslint_port);

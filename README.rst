@@ -10,7 +10,7 @@ Then I caught a talk on the `node.js`_ server, and saw a way.
 
 In my environment, this cuts jslint invocation time in half.
 
-This project also depends on the Express_ framework, with the connect-form
+This project also depends on the Express_ framework, with the connect-form, underscore
 and haml packages.  I recommend installation with npm_ to manage these
 dependencies.
 
@@ -55,8 +55,14 @@ Configuration
 `jslint_port` may be passed on the node command line with the
 ``--port`` parameter.  It defaults to 3003.
 
-`jstlint_options` is currently only configurable by editing
-``app.js``.  For documentation on JSLint's options, see `JSLint
+`jstlint_options` can be configured by passing the --exclude option to ``app.js``.
+e.g.
+
+$ node app.js --exclude nomen,undef
+
+Alternatively they can be configured within emacs by setting the variable lintnode-jslint-excludes
+
+For documentation on JSLint's options, see `JSLint
 options`_.
 
 .. _JSLint options: http://www.jslint.com/lint.html#options
