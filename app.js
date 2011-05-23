@@ -58,8 +58,7 @@ var outputErrors = function (errors) {
         if (e) {
             write('Lint at line ' + e.line + ' character ' +
                         e.character + ': ' + e.reason);
-            write((e.evidence || '').
-                        replace(/^\s*(\S*(\s+\S+)*)\s*$/, "$1"));
+            write((e.evidence || '').replace(/^\s*(\S*(\s+\S+)*)\s*$/, "$1"));
             write('');
         }
     }
@@ -139,7 +138,7 @@ function parseCommandLine() {
     }
     if (exclude_index > -1) {
         exclude_opts = process.ARGV[exclude_index + 1].split(",");
-        if (exclude_opts.length > 0 && exclude_opts[0] != ''){
+        if (exclude_opts.length > 0 && exclude_opts[0] !== '') {
             _.each(exclude_opts, function (opt) {
                 sys.puts("Turning off " + opt);
                 jslint_options[opt] = false;
