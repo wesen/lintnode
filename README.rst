@@ -73,7 +73,7 @@ Support
 
 This project is hosted at github, which has a wiki and an issue tracker:
 
-  http://github.com/keturn/lintnode
+  http://github.com/davidmiller/lintnode
 
 
 License
