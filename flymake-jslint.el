@@ -41,7 +41,7 @@
   "The directory lintnode's app.js may be found in."
   :type 'string
   :group 'flymake-jslint)
-(expand-file-name (concat "~/emacs/lintnode" "/app.js"))
+
 (defcustom lintnode-port 3003
   "The port the lintnode server runs on."
   :type 'integer
@@ -62,7 +62,7 @@ Uses `lintnode-node-program' and `lintnode-location'."
   (let ((lintnode-location (expand-file-name (concat lintnode-location "/app.js")))
         (lintnode-excludes (if (not lintnode-jslint-excludes)
                                ""
-                             (string-join "," (mapcar 'symbol-name lintnode-jslint-excludes)))))
+                             (mapconcat 'identity (mapcar 'symbol-name lintnode-jslint-excludes) ","))))
     (start-process "lintnode-server" "*lintnode*"
                    lintnode-node-program
                    lintnode-location
