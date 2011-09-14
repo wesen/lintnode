@@ -14,7 +14,8 @@
 
 /*global process, require */
 var express = require("express");
-var JSLINT = require('./fulljslint');
+//var JSLINT = require('./fulljslint');
+var JSHINT = require('jshint');
 var fs = require('fs');
 var sys = require('sys');
 var _ = require('underscore');
@@ -32,17 +33,20 @@ var jslint_port = 3003;
 
 /* copied from jslint's rhino.js */
 var jslint_options = {
+  jquery: true,
+  browser: true,
     bitwise: true,
     eqeqeq: true,
     immed: true,
     newcap: true,
-    nomen: true,
+    nomen: false,
+    browser: true,
     onevar: true,
     plusplus: true,
     regexp: true,
     rhino: true,
     undef: true,
-    white: true
+    white: false
 };
 
 var outputErrors = function (errors) {
@@ -79,12 +83,15 @@ app.post('/jslint', function (request, res) {
 
         function doLint(sourcedata) {
             var passed, results;
-            passed = JSLINT.JSLINT(sourcedata, jslint_options);
+//            passed = JSLINT.JSLINT(sourcedata, jslint_options);
+            passed = JSHINT.JSHINT(sourcedata, jslint_options);
             if (passed) {
                 // debug("no errors\n");
                 results = "jslint: No problems found in " + filename + "\n";
             } else {
-                results = outputErrors(JSLINT.JSLINT.errors);
+//                results = outputErrors(JSLINT.JSLINT.errors);
+                results = outputErrors(JSHINT.JSHINT.errors);
+              results = [];
                 // debug("results are" + results);
             }
             return results;
@@ -112,9 +119,9 @@ app.post('/jslint', function (request, res) {
 
 /* This action always return some JSLint problems. */
 var exampleFunc = function (req, res) {
-    JSLINT.JSLINT("a = function(){ return 7 + x }()",
+    JSHINT.JSHINT("a = function(){ return 7 + x }()",
         jslint_options);
-    res.send(outputErrors(JSLINT.JSLINT.errors),
+    res.send(outputErrors(JSHINT.JSHINT.errors),
         {'Content-Type': 'text/plain'});
 };
 
