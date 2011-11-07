@@ -94,7 +94,9 @@ Uses `lintnode-node-program' and `lintnode-location'."
 
 (defun flymake-jslint-init ()
   (let* ((temp-file (flymake-init-create-temp-buffer-copy
-                     'flymake-create-temp-inplace))
+                     (if (fboundp 'flymake-create-temp-copy)
+                         'flymake-create-temp-copy
+                       'flymake-create-temp-inplace)))
          (local-file (file-relative-name
                       temp-file
                       (file-name-directory buffer-file-name)))

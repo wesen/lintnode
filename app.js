@@ -35,18 +35,18 @@ var jslint_port = 3003;
 var jslint_options = {
   jquery: true,
   browser: true,
-    bitwise: true,
-    eqeqeq: true,
-    immed: true,
-    newcap: true,
-    nomen: false,
-    browser: true,
-    onevar: true,
-    plusplus: true,
-    regexp: true,
-    rhino: true,
-    undef: true,
-    white: false
+  bitwise: true,
+  eqeqeq: true,
+  immed: true,
+  newcap: true,
+  nomen: false,
+  browser: true,
+  onevar: true,
+  plusplus: true,
+  regexp: true,
+  rhino: true,
+  undef: true,
+  white: false
 };
 
 var outputErrors = function (errors) {
@@ -91,7 +91,7 @@ app.post('/jslint', function (request, res) {
             } else {
 //                results = outputErrors(JSLINT.JSLINT.errors);
                 results = outputErrors(JSHINT.JSHINT.errors);
-              results = [];
+//              results = [];
                 // debug("results are" + results);
             }
             return results;
